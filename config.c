@@ -172,6 +172,8 @@ void load_config() {
     }
 
     _runtime_cw_ems = wpm2ems(_config.speed_wpm);
+
+    update_timer0();
 }
 
 void save_config() {
