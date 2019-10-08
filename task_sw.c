@@ -17,6 +17,7 @@
 #include "tasksdef.h"
 #include "config.h"
 #include "hw.h"
+#include "charsdef.h"
 
 static void init_sw() {
     SW_PIN = 1;
@@ -34,12 +35,12 @@ static void do_long_press() {
 
     rt_morse_decoded_buffer_reset();
 
-    autotext_response_char('?');
+    autotext_response_char(MCH_QM);
 }
 
 static void do_press() {
     if (RT_FLAG_SETTING_MODE_ENABLED) {
-        rt_morse_decoded_buffer_putch('\n');
+        rt_morse_decoded_buffer_putch(MCH_LF);
     } else if (RT_FLAG_AUTOCQ_ENABLED) {
         tfo_goto_state_force(TASK_AUTOTEXT, AUTOTEXT_STATE_IDLE);
     } else {

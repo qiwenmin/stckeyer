@@ -16,72 +16,74 @@
 #include "tnyfsmos/tnyfsmos.h"
 #include "tasksdef.h"
 #include "config.h"
+#include "charsdef.h"
+#include "version.h"
 
 static unsigned char callsign_pos;
 
-static __code char version[] = VERSION;
-static __code char resp_ok[] = " OK";
-static __code char resp_sk[] = "SK";
-static __code char resp_question_mark[] = " ?";
+static __code char version[] = KEYER_VERSION;
+static __code char resp_ok[] = { MCH_SP, MCH_O, MCH_K, 0 }; // " OK"
+static __code char resp_sk[] = { MCH_S, MCH_K, 0 }; // "SK"
+static __code char resp_question_mark[] = { MCH_SP, MCH_QM, 0 }; // " ?"
 
 static void do_wait_command() {
     if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
         switch (ch) {
-            case '\n': // exit setting mode
+            case MCH_LF: // exit setting mode
                 save_config();
                 autotext_response_str(resp_sk);
                 RT_FLAG_DISABLE_SETTING_MODE;
                 break;
 
-            case '0': // reset config
+            case MCH_0: // reset config
                 cfg_reset();
                 autotext_response_str(resp_ok);
                 break;
 
-            case 'V':
+            case MCH_V:
                 autotext_response_str(version);
                 break;
 
-            case 'W': // query wpm
+            case MCH_W: // query wpm
                 autotext_response_num(_config.speed_wpm);
                 break;
-            case 'E': // decrease wpm
-            case 'T': // increase wpm
-                cfg_set_speed_wpm(_config.speed_wpm + (ch == 'T' ? 1 : -1));
+            case MCH_E: // decrease wpm
+            case MCH_T: // increase wpm
+                cfg_set_speed_wpm(_config.speed_wpm + (ch == MCH_T ? 1 : -1));
                 autotext_response_num(_config.speed_wpm);
                 break;
 
-            case 'A': // set iambic A
+            case MCH_A: // set iambic A
                 CFG_FLAG_SET_IAMBIC_A;
                 autotext_response_str(resp_ok);
                 break;
-            case 'B': // set iambic B
+            case MCH_B: // set iambic B
                 CFG_FLAG_SET_IAMBIC_B;
                 autotext_response_str(resp_ok);
                 break;
 
-            case 'L':
+            case MCH_L:
                 CFG_FLAG_SET_LEFT_HAND;
                 autotext_response_str(resp_ok);
                 break;
-            case 'R':
+            case MCH_R:
                 CFG_FLAG_SET_RIGHT_HAND;
                 autotext_response_str(resp_ok);
                 break;
 
-            case 'F': // set sidetone frequency
+            case MCH_F: // set sidetone frequency
                 autotext_response_num(times_50(_config.sidetone_freq_50hz));
                 tfo_goto_state(TASK_SETTING, SETTING_STATE_SIDETONE_FREQ);
                 break;
 
-            case 'D': // set tx delay
+            case MCH_D: // set tx delay
                 autotext_response_num(times_50(_config.tx_delay_50ms));
                 tfo_goto_state(TASK_SETTING, SETTING_STATE_TX_DELAY);
                 break;
 
-            case 'C': // set callsign
+            case MCH_C: // set callsign
                 autotext_response_str(resp_question_mark);
                 rt_morse_decoded_buffer_reset();
                 callsign_pos = 0;
@@ -97,13 +99,13 @@ static void do_sidetone_freq() {
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
         switch (ch) {
-            case '\n': // return to main setting
+            case MCH_LF: // return to main setting
                 autotext_response_str(resp_ok + 1);
                 tfo_goto_state(TASK_SETTING, SETTING_STATE_WAIT_COMMAND);
                 break;
-            case 'T':
-            case 'E':
-                cfg_set_sidetone_freq_50hz(_config.sidetone_freq_50hz + (ch == 'T' ? 1 : -1));
+            case MCH_T:
+            case MCH_E:
+                cfg_set_sidetone_freq_50hz(_config.sidetone_freq_50hz + (ch == MCH_T ? 1 : -1));
                 autotext_response_num(times_50(_config.sidetone_freq_50hz));
                 break;
         }
@@ -116,13 +118,13 @@ static void do_tx_delay() {
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
         switch (ch) {
-            case '\n': // return to main setting
+            case MCH_LF: // return to main setting
                 autotext_response_str(resp_ok + 1);
                 tfo_goto_state(TASK_SETTING, SETTING_STATE_WAIT_COMMAND);
                 break;
-            case 'T':
-            case 'E':
-                cfg_set_tx_delay_50ms(_config.tx_delay_50ms + (ch == 'T' ? 1 : -1));
+            case MCH_T:
+            case MCH_E:
+                cfg_set_tx_delay_50ms(_config.tx_delay_50ms + (ch == MCH_T ? 1 : -1));
                 autotext_response_num(times_50(_config.tx_delay_50ms));
                 break;
         }
@@ -134,7 +136,7 @@ static void do_callsign() {
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
         switch (ch) {
-            case '\n': // return to main setting
+            case MCH_LF: // return to main setting
                 if (callsign_pos) {
                     _config.callsign[callsign_pos] = 0;
                 }

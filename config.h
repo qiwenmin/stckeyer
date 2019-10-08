@@ -16,8 +16,6 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#define VERSION " 001"
-
 #define CFG_CALLSIGN_BUFFER_LEN (12)
 
 #define CFG_SIDETONE_FREQ_50HZ_MIN (8)

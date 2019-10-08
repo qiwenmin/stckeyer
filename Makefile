@@ -3,41 +3,44 @@ SRC = $(wildcard *.c) $(wildcard */*.c)
 
 BOARD ?= stc15w104
 
-TARGET = stckeyer
+TARGET ?= stckeyer
 
 ifeq ($(BOARD),stc15w104)
 	STCCODESIZE ?= 4089
 	STCIRAMSIZE ?= 128
-	CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD
+	CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD --disable-warning 190
+	ifeq ($(TARGET),stckeyer-compact)
+		CFLAGS += -DCOMPACT_CODE
+	endif
 	FLASHTOOL ?= stcgal
 	FLASHFLAGS ?= -P stc15 -b 1200 -l 1200
 endif
 
-ifeq ($(BOARD),stm8s103f3)
-	CFLAGS ?= -mstm8 --std-sdcc99 --Werror -MD
-	FLASHTOOL ?= stm8flash
-	FLASHFLAGS ?= -c stlinkv2 -p stm8s103f3 -w
-endif
+#ifeq ($(BOARD),stm8s103f3)
+#	CFLAGS ?= -mstm8 --std-sdcc99 --Werror -MD
+#	FLASHTOOL ?= stm8flash
+#	FLASHFLAGS ?= -c stlinkv2 -p stm8s103f3 -w
+#endif
 
 .PHONY: all clean flash
 
-all: build/tnyfsmos build/$(TARGET).hex
+all: build/$(TARGET)/tnyfsmos build/$(TARGET)/$(TARGET).hex
 
-build/tnyfsmos:
+build/$(TARGET)/tnyfsmos:
 	mkdir -p $@
 
-build/$(TARGET).hex: build/$(TARGET).ihx
+build/$(TARGET)/$(TARGET).hex: build/$(TARGET)/$(TARGET).ihx
 	packihx $^ > $@
 
-build/$(TARGET).ihx: $(SRC:%.c=build/%.rel)
+build/$(TARGET)/$(TARGET).ihx: $(SRC:%.c=build/$(TARGET)/%.rel)
 	$(CC) -o $@ $(CFLAGS) $^
 
-build/%.rel: %.c
+build/$(TARGET)/%.rel: %.c
 	$(CC) -c -o $@ $(CFLAGS) $<
 
--include $(SRC:%.c=build/%.d)
+-include $(SRC:%.c=build/$(TARGET)/%.d)
 
-flash: build/$(TARGET).hex
+flash: build/$(TARGET)/$(TARGET).hex
 	$(FLASHTOOL) $(FLASHFLAGS) $<
 
 clean:

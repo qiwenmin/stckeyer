@@ -18,7 +18,16 @@
 
 #define MORSE_PATTERN_FINISHED (0b10000000)
 
+#if defined(COMPACT_CODE)
+
+#define morse_get_pattern(v) (v)
+#define morse_get_char(v) (v)
+
+#else // !COMPACT_CODE
+
 unsigned char morse_get_pattern(char ch);
 char morse_get_char(unsigned char pattern);
+
+#endif // COMPACT_CODE
 
 #endif // __MORSE_H__

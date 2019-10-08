@@ -15,6 +15,8 @@
 
 #include "morse.h"
 
+#if !defined(COMPACT_CODE)
+
 static __code const unsigned char morse_table[] = {
     0b10101110, // ! _._.__
     0b01001010, // " ._.._.
@@ -113,3 +115,5 @@ char morse_get_char(unsigned char pattern) {
 
     return 0;
 }
+
+#endif // COMPACT_CODE

@@ -17,15 +17,16 @@
 #include "tasksdef.h"
 #include "config.h"
 #include "morse.h"
+#include "charsdef.h"
 
 #define CODE_DAH (0b10000000)
 
 static unsigned char char_pattern;
 static tfo_task_state send_chars_return_state;
 static unsigned char autocq_idx;
-static __code char msg_cq1[] = "CQ CQ DE ";
-static __code char msg_cq2[] = " ";
-static __code char msg_cq3[] = " PSE K";
+static __code char msg_cq1[] = { MCH_C, MCH_Q, MCH_SP, MCH_C, MCH_Q, MCH_SP, MCH_D, MCH_E, MCH_SP, 0 }; // "CQ CQ DE "
+static __code char msg_cq2[] = { MCH_SP, 0 }; // " "
+static __code char msg_cq3[] = { MCH_SP, MCH_P, MCH_S, MCH_E, MCH_SP, MCH_K, 0}; // " PSE K"
 
 static void goto_state_idle() {
     tfo_goto_state(TASK_KEYING, KEYING_STATE_UP);
@@ -156,19 +157,19 @@ void autotext_response_str(char *p) {
 static void resp_buffer_fill_number(unsigned int n) {
     unsigned char i = 0;
 
-    _runtime_resp_buffer[i ++] = ' ';
+    _runtime_resp_buffer[i ++] = MCH_SP;
 
     unsigned int base = 1000;
 
     while (base != 1) {
         if ((i > 1) || (n > base)) {
-            _runtime_resp_buffer[i ++] = divide(n, base) + '0';
+            _runtime_resp_buffer[i ++] = NUM2CH(divide(n, base));
         }
         n = n % base;
         base = divide(base, 10);
     }
 
-    _runtime_resp_buffer[i ++] = n + '0';
+    _runtime_resp_buffer[i ++] = NUM2CH(n);
     _runtime_resp_buffer[i ++] = 0;
 }
 

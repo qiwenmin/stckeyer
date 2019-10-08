@@ -18,6 +18,7 @@
 #include "config.h"
 #include "morse.h"
 #include "hw.h"
+#include "charsdef.h"
 
 #define PADDLE_NONE (0)
 #define PADDLE_DIT (1)
@@ -88,10 +89,10 @@ void paddle_state_machine() {
 
         case PADDLE_STATE_REPORT_KEY_TYPE:
             if (RT_FLAG_STRAIGHT_KEY_ENABLED) {
-                autotext_response_char('S');
+                autotext_response_char(MCH_S);
                 tfo_goto_state(TASK_PADDLE, PADDLE_STATE_STRAIGHT_KEY_WAITING_DOWN);
             } else {
-                autotext_response_char('P');
+                autotext_response_char(MCH_P);
                 tfo_goto_state(TASK_PADDLE, PADDLE_STATE_IDLE);
             }
             break;

@@ -15,6 +15,7 @@
 
 #include "config.h"
 #include "tnyfsmos/stc15.h"
+#include "charsdef.h"
 
 config _config;
 
@@ -57,9 +58,9 @@ void cfg_reset() {
 
     CFG_FLAG_SET_DEFAULTS;
 
-    _config.callsign[0] = 'N';
-    _config.callsign[1] = 'N';
-    _config.callsign[2] = 'K';
+    _config.callsign[0] = MCH_N;
+    _config.callsign[1] = MCH_N;
+    _config.callsign[2] = MCH_K;
     _config.callsign[3] = 0;
 
     _runtime_cw_ems = wpm2ems(_config.speed_wpm);
@@ -164,7 +165,7 @@ static void  iap_program_byte(unsigned int addr, unsigned char dat)
 void load_config() {
     unsigned char ch1 = iap_read_byte(sizeof(_config));
 
-    if (ch1 != 'N') return;
+    if (ch1 != MCH_N) return;
 
     unsigned char *p = (unsigned char *)(&_config);
     for (unsigned char i = 0; i < sizeof(_config); i ++) {
@@ -179,7 +180,7 @@ void load_config() {
 void save_config() {
     iap_erase_sector(0x00);
 
-    iap_program_byte(sizeof(_config), 'N');
+    iap_program_byte(sizeof(_config), MCH_N);
 
     unsigned char *p = (unsigned char *)(&_config);
     for (unsigned char i = 0; i < sizeof(_config); i ++) {
