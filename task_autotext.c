@@ -187,7 +187,7 @@ void autotext_response_char(char ch) {
 }
 
 void autotext_response_char2(char ch) {
-    _runtime_resp_buffer[1] = MCH_SP;
+    _runtime_resp_buffer[0] = MCH_SP;
     _runtime_resp_buffer[1] = ch;
     _runtime_resp_buffer[2] = 0;
     autotext_response_str(_runtime_resp_buffer);
