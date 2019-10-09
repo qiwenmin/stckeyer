@@ -40,11 +40,12 @@ typedef struct {
     unsigned char tx_delay_50ms;
 
     // 7  6  5  4  3  2  1  0
-    //             |  |  |  |                  0                 1
-    //             |  |  |  +-- Disable Sidetone | Enable Sidetone
-    //             |  |  +-----       Disable TX |       Enable TX
-    //             |  +--------       Right-Hand |       Left-Hand
-    //             +-----------        Iambic-B |        Iamboic-A
+    // |           |  |  |  |                  0                 1
+    // |           |  |  |  +-- Disable Sidetone | Enable Sidetone
+    // |           |  |  +-----       Disable TX |       Enable TX
+    // |           |  +--------       Right-Hand |       Left-Hand
+    // |           +-----------         Iambic-B |       Iamboic-A
+    // +-----------------------         Unlocked |          Locked
     signed char flags;
 
     char callsign[CFG_CALLSIGN_BUFFER_LEN];
@@ -56,14 +57,17 @@ extern config _config;
 #define CFG_FLAG_TX_SHIFT 1
 #define CFG_FLAG_HAND_SHIFT 2
 #define CFG_FLAG_IAMBIC_MODE_SHIFT 3
+#define CFG_FLAG_LOCK_SHIFT 7
 
 #define CFG_FLAG_SIDETONE_ENABLED (_config.flags & (1 << CFG_FLAG_SIDETONE_SHIFT))
-#define CFG_FLAG_ENABLE_SIDETONE (_conig.flags |= (1 << CFG_FLAG_SIDETONE_SHIFT))
-#define CFG_FLAG_DISABLE_SIDETONE (_conig.flags &= ~(1 << CFG_FLAG_SIDETONE_SHIFT))
+#define CFG_FLAG_ENABLE_SIDETONE (_config.flags |= (1 << CFG_FLAG_SIDETONE_SHIFT))
+#define CFG_FLAG_DISABLE_SIDETONE (_config.flags &= ~(1 << CFG_FLAG_SIDETONE_SHIFT))
+#define CFG_FLAG_TOGGLE_SIDETONE (_config.flags ^= (1 << CFG_FLAG_SIDETONE_SHIFT))
 
 #define CFG_FLAG_TX_ENABLED (_config.flags & (1 << CFG_FLAG_TX_SHIFT))
 #define CFG_FLAG_ENABLE_TX (_config.flags |= (1 << CFG_FLAG_TX_SHIFT))
 #define CFG_FLAG_DISABLE_TX (_config.flags &= ~(1 << CFG_FLAG_TX_SHIFT))
+#define CFG_FLAG_TOGGLE_TX (_config.flags ^= (1 << CFG_FLAG_TX_SHIFT))
 
 #define CFG_FLAG_IS_LEFT_HAND (_config.flags & (1 << CFG_FLAG_HAND_SHIFT))
 #define CFG_FLAG_SET_LEFT_HAND (_config.flags |= (1 << CFG_FLAG_HAND_SHIFT))
@@ -72,6 +76,9 @@ extern config _config;
 #define CFG_FLAG_IS_IAMBIC_A (_config.flags & (1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
 #define CFG_FLAG_SET_IAMBIC_A (_config.flags |= (1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
 #define CFG_FLAG_SET_IAMBIC_B (_config.flags &= ~(1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
+
+#define CFG_FLAG_LOCKED (_config.flags & (1 << CFG_FLAG_LOCK_SHIFT))
+#define CFG_FLAG_TOGGLE_LOCK (_config.flags ^= (1 << CFG_FLAG_LOCK_SHIFT))
 
 #define CFG_FLAG_SET_DEFAULTS (_config.flags = (1 << CFG_FLAG_SIDETONE_SHIFT) | (1 << CFG_FLAG_TX_SHIFT))
 
@@ -89,7 +96,7 @@ extern char _runtime_resp_buffer[];
 // |  |  |  |  |  |  +-----     TX Disabled |   TX Enabled
 // |  |  |  |  |  +--------          Normal |  Setting Mode
 // |  |  |  |  +------------         Paddle |  Straight Key
-// |  |  |  +--------------          Normal |   Interactive
+// |  |  |  +--------------          Normal |    Responsing
 // |  |  +-----------------          Normal |       Auto CQ
 // |  +-------------------- Paddle Disabled | Paddle Enabled
 // +--------------------------- SW Disabled |     SW Enabled
@@ -99,7 +106,7 @@ extern signed char _runtime_flags;
 #define RT_FLAG_TX_SHIFT 1
 #define RT_FLAG_SETTING_MODE_SHIFT 2
 #define RT_FLAG_STRAIGHT_KEY_SHIFT 3
-#define RT_FLAG_INTERACTIVE_SHIFT 4
+#define RT_FLAG_RESPONSING_SHIFT 4
 #define RT_FLAG_AUTOCQ_SHIFT 5
 #define RT_FLAG_PADDLE_SHIFT 6
 #define RT_FLAG_SW_SHIFT 7
@@ -120,9 +127,9 @@ extern signed char _runtime_flags;
 #define RT_FLAG_ENABLE_STRAIGHT_KEY (_runtime_flags |= (1 << RT_FLAG_STRAIGHT_KEY_SHIFT))
 #define RT_FLAG_DISABLE_STRAIGHT_KEY (_runtime_flags &= ~(1 << RT_FLAG_STRAIGHT_KEY_SHIFT))
 
-#define RT_FLAG_INTERACTIVE_ENABLED (_runtime_flags & (1 << RT_FLAG_INTERACTIVE_SHIFT))
-#define RT_FLAG_ENABLE_INTERACTIVE (_runtime_flags |= (1 << RT_FLAG_INTERACTIVE_SHIFT))
-#define RT_FLAG_DISABLE_INTERACTIVE (_runtime_flags &= ~(1 << RT_FLAG_INTERACTIVE_SHIFT))
+#define RT_FLAG_IS_RESPONSING_ON (_runtime_flags & (1 << RT_FLAG_RESPONSING_SHIFT))
+#define RT_FLAG_SET_RESPONSING_ON (_runtime_flags |= (1 << RT_FLAG_RESPONSING_SHIFT))
+#define RT_FLAG_SET_RESPONSING_OFF (_runtime_flags &= ~(1 << RT_FLAG_RESPONSING_SHIFT))
 
 #define RT_FLAG_AUTOCQ_ENABLED (_runtime_flags & (1 << RT_FLAG_AUTOCQ_SHIFT))
 #define RT_FLAG_ENABLE_AUTOCQ (_runtime_flags |= (1 << RT_FLAG_AUTOCQ_SHIFT))

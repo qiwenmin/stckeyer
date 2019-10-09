@@ -28,21 +28,16 @@
 static unsigned char _current_paddle_key, _next_paddle_key;
 static unsigned char _morse_bits;
 
-static void init_paddle() {
-    DIT_PIN = 1;
-    DAH_PIN = 1;
-
-    _current_paddle_key = _next_paddle_key = PADDLE_NONE;
-    _morse_bits = 1;
+#define init_paddle() {\
+    DIT_PIN = 1;\
+    DAH_PIN = 1;\
+    _current_paddle_key = _next_paddle_key = PADDLE_NONE;\
+    _morse_bits = 1;\
 }
 
-static unsigned char is_dit_pin_down() {
-    return RT_FLAG_PADDLE_ENABLED && (!DIT_PIN);
-}
+#define is_dit_pin_down() (RT_FLAG_PADDLE_ENABLED && (!DIT_PIN))
 
-static unsigned char is_dah_pin_down() {
-    return RT_FLAG_PADDLE_ENABLED && (!DAH_PIN);
-}
+#define is_dah_pin_down() (RT_FLAG_PADDLE_ENABLED && (!DAH_PIN))
 
 static unsigned char get_paddle_key() {
     unsigned char result = (is_dit_pin_down() ? PADDLE_DIT : PADDLE_NONE)

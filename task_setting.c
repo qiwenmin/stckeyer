@@ -24,12 +24,16 @@ static unsigned char callsign_pos;
 static __code char version[] = KEYER_VERSION;
 static __code char resp_ok[] = { MCH_SP, MCH_O, MCH_K, 0 }; // " OK"
 static __code char resp_sk[] = { MCH_S, MCH_K, 0 }; // "SK"
-static __code char resp_question_mark[] = { MCH_SP, MCH_QM, 0 }; // " ?"
 
 static void do_wait_command() {
     if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
+        if (CFG_FLAG_LOCKED && ch != MCH_5) {
+            autotext_response_char2(MCH_EM);
+            continue;
+        }
+
         switch (ch) {
             case MCH_LF: // exit setting mode
                 save_config();
@@ -84,10 +88,25 @@ static void do_wait_command() {
                 break;
 
             case MCH_C: // set callsign
-                autotext_response_str(resp_question_mark);
+                autotext_response_char2(MCH_QM);
                 rt_morse_decoded_buffer_reset();
                 callsign_pos = 0;
                 tfo_goto_state(TASK_SETTING, SETTING_STATE_CALLSIGN);
+                break;
+
+            case MCH_K: // toggle tx keying
+                CFG_FLAG_TOGGLE_TX;
+                autotext_response_char2(CFG_FLAG_TX_ENABLED ? MCH_Y : MCH_N);
+                break;
+
+            case MCH_S: // toggle sidetone
+                CFG_FLAG_TOGGLE_SIDETONE;
+                autotext_response_char2(CFG_FLAG_SIDETONE_ENABLED ? MCH_Y : MCH_N);
+                break;
+
+            case MCH_5: // toggle config lock
+                CFG_FLAG_TOGGLE_LOCK;
+                autotext_response_char2(CFG_FLAG_LOCKED ? MCH_Y : MCH_N);
                 break;
         }
     }

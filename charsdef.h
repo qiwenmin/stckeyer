@@ -5,11 +5,13 @@
 
 #define MCH_SP 0b10000000
 #define MCH_LF 0b11111111
+#define MCH_EM 0b10101110
 #define MCH_QM 0b00110010
 
 #define MCH_0 0b11111100
 #define MCH_3 0b00011100
- 
+#define MCH_5 0b00000100
+
 #define MCH_A 0b01100000
 #define MCH_B 0b10001000
 #define MCH_C 0b10101000
@@ -27,6 +29,8 @@
 #define MCH_T 0b11000000
 #define MCH_V 0b00011000
 #define MCH_W 0b01110000
+#define MCH_X 0b10011000
+#define MCH_Y 0b10111000
 
 extern __code char __num_pattern_table[];
 
@@ -36,10 +40,12 @@ extern __code char __num_pattern_table[];
 
 #define MCH_SP ' '
 #define MCH_LF '\n'
+#define MCH_EM '!'
 #define MCH_QM '?'
 
 #define MCH_0 '0'
 #define MCH_3 '3'
+#define MCH_5 '5'
 
 #define MCH_A 'A'
 #define MCH_B 'B'
@@ -58,6 +64,8 @@ extern __code char __num_pattern_table[];
 #define MCH_T 'T'
 #define MCH_V 'V'
 #define MCH_W 'W'
+#define MCH_X 'X'
+#define MCH_Y 'Y'
 
 #define NUM2CH(v) ((v) + '0')
 

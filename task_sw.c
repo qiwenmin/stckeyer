@@ -19,13 +19,9 @@
 #include "hw.h"
 #include "charsdef.h"
 
-static void init_sw() {
-    SW_PIN = 1;
-}
+#define init_sw() SW_PIN = 1
 
-static char is_pin_down() {
-    return RT_FLAG_SW_ENABLED && (!SW_PIN);
-}
+#define is_pin_down() (RT_FLAG_SW_ENABLED && (!SW_PIN))
 
 static void do_long_press() {
     if (RT_FLAG_SETTING_MODE_ENABLED || RT_FLAG_AUTOCQ_ENABLED) return;

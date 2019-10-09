@@ -41,6 +41,7 @@ static void goto_state_idle() {
     }
 
     RT_FLAG_DISABLE_AUTOCQ;
+    RT_FLAG_SET_RESPONSING_OFF;
 
     char_pattern = MORSE_PATTERN_FINISHED;
     _runtime_autotext_ptr = 0;
@@ -84,6 +85,7 @@ static void goto_state_response() {
     RT_FLAG_DISABLE_PADDLE;
     RT_FLAG_DISABLE_SW;
     RT_FLAG_DISABLE_TX;
+    RT_FLAG_SET_RESPONSING_ON;
 
     send_chars_return_state = AUTOTEXT_STATE_IDLE;
     tfo_goto_state(TASK_AUTOTEXT, AUTOTEXT_STATE_SEND_CHARS);
@@ -181,5 +183,12 @@ void autotext_response_num(unsigned int n) {
 void autotext_response_char(char ch) {
     _runtime_resp_buffer[0] = ch;
     _runtime_resp_buffer[1] = 0;
+    autotext_response_str(_runtime_resp_buffer);
+}
+
+void autotext_response_char2(char ch) {
+    _runtime_resp_buffer[1] = MCH_SP;
+    _runtime_resp_buffer[1] = ch;
+    _runtime_resp_buffer[2] = 0;
     autotext_response_str(_runtime_resp_buffer);
 }

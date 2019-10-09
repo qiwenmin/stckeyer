@@ -19,9 +19,7 @@
 
 TFO_INIT(TASK_COUNT)
 
-#ifdef __SDCC_mcs51
 void timer0_isr() __interrupt TF0_VECTOR;
-#endif // __SDCC_mcs51
 
 void main() {
     tfo_init_os();

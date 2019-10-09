@@ -96,6 +96,7 @@ void autotext_state_machine();
 void autotext_response_str(char *p);
 void autotext_response_num(unsigned int n);
 void autotext_response_char(char ch);
+void autotext_response_char2(char ch);
 
 /*****************
  * Setting Task

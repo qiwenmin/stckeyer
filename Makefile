@@ -1,26 +1,16 @@
 CC = sdcc
 SRC = $(wildcard *.c) $(wildcard */*.c)
 
-BOARD ?= stc15w104
-
 TARGET ?= stckeyer
 
-ifeq ($(BOARD),stc15w104)
-	STCCODESIZE ?= 4089
-	STCIRAMSIZE ?= 128
-	CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD --disable-warning 190
-	ifeq ($(TARGET),stckeyer-compact)
-		CFLAGS += -DCOMPACT_CODE
-	endif
-	FLASHTOOL ?= stcgal
-	FLASHFLAGS ?= -P stc15 -b 1200 -l 1200
+STCCODESIZE ?= 4089
+STCIRAMSIZE ?= 128
+CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD --disable-warning 190
+ifeq ($(TARGET),stckeyer-compact)
+	CFLAGS += -DCOMPACT_CODE
 endif
-
-#ifeq ($(BOARD),stm8s103f3)
-#	CFLAGS ?= -mstm8 --std-sdcc99 --Werror -MD
-#	FLASHTOOL ?= stm8flash
-#	FLASHFLAGS ?= -c stlinkv2 -p stm8s103f3 -w
-#endif
+FLASHTOOL ?= stcgal
+FLASHFLAGS ?= -P stc15 -b 1200 -l 1200
 
 .PHONY: all clean flash
 
