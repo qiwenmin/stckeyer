@@ -64,13 +64,9 @@ void tfo_delay(unsigned char task_id, unsigned int delay_ms, tfo_task_state stat
 }
 
 void tfo_delay_force(unsigned char task_id, unsigned int delay_ms, tfo_task_state state) {
-    if (delay_ms) {
-        __tfo_tasks[task_id].delay_until = delay_ms + millis();
+    __tfo_tasks[task_id].delay_until = delay_ms + millis();
 
-        __tfo_tasks[task_id].state = state | __TFO_STATE_DELAYING_MASK;
-    } else {
-        __tfo_tasks[task_id].state = state;
-    }
+    __tfo_tasks[task_id].state = state | __TFO_STATE_DELAYING_MASK;
 }
 
 static void init_task_cb(unsigned char task_id) {
@@ -99,9 +95,9 @@ void tfo_init_os() {
 extern volatile unsigned int _millis;
 
 void timer2_isr() __interrupt 12 {
-    _millis ++;
-
     process_delay_waiting();
+
+    _millis ++;
 }
 
 void init_timer() {
@@ -129,10 +125,11 @@ void init_timer() {
 extern volatile unsigned int _millis;
 
 void timer4_millis_isr() __interrupt(TIM4_ISR) {
-    _millis ++;
     clear_bit(TIM4_SR, TIM4_SR_UIF);
 
     process_delay_waiting();
+
+    _millis ++;
 }
 
 void init_timer() {
