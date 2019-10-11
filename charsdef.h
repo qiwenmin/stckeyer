@@ -10,6 +10,7 @@
 
 #define MCH_0 0b11111100
 #define MCH_3 0b00011100
+#define MCH_4 0b00001100
 #define MCH_5 0b00000100
 
 #define MCH_A 0b01100000
@@ -45,6 +46,7 @@ extern __code char __num_pattern_table[];
 
 #define MCH_0 '0'
 #define MCH_3 '3'
+#define MCH_4 '4'
 #define MCH_5 '5'
 
 #define MCH_A 'A'
