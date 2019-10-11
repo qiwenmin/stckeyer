@@ -64,9 +64,13 @@ void tfo_delay(unsigned char task_id, unsigned int delay_ms, tfo_task_state stat
 }
 
 void tfo_delay_force(unsigned char task_id, unsigned int delay_ms, tfo_task_state state) {
-    __tfo_tasks[task_id].delay_until = delay_ms + millis();
+    if (delay_ms) {
+        __tfo_tasks[task_id].delay_until = delay_ms + millis();
 
-    __tfo_tasks[task_id].state = state | __TFO_STATE_DELAYING_MASK;
+        __tfo_tasks[task_id].state = state | __TFO_STATE_DELAYING_MASK;
+    } else {
+        __tfo_tasks[task_id].state = state;
+    }
 }
 
 static void init_task_cb(unsigned char task_id) {

@@ -10,7 +10,7 @@ ifeq ($(TARGET),stckeyer-compact)
 	CFLAGS += -DCOMPACT_CODE
 endif
 FLASHTOOL ?= stcgal
-FLASHFLAGS ?= -P stc15 -b 1200 -l 1200
+FLASHFLAGS ?= -a -P stc15 -b 1200 -l 1200
 
 .PHONY: all clean flash
 
