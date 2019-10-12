@@ -16,7 +16,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#define VERSION " 001"
+#define VERSION " 002P1 BD4KG"
 
 #define CFG_CALLSIGN_BUFFER_LEN (12)
 
