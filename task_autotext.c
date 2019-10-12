@@ -161,7 +161,7 @@ static void resp_buffer_fill_number(unsigned int n) {
     unsigned int base = 1000;
 
     while (base != 1) {
-        if ((i > 1) || (n > base)) {
+        if ((i > 1) || (n >= base)) {
             _runtime_resp_buffer[i ++] = divide(n, base) + '0';
         }
         n = n % base;
