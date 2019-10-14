@@ -1,0 +1,3 @@
+[submodule "tnyfsmos"]
+	path = tnyfsmos
+	url = https://github.com/qiwenmin/tnyfsmos.git
