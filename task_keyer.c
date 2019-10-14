@@ -133,11 +133,11 @@ static void keying_init() {
 }
 
 static void keying_down() {
-    KEY_PIN = 0;
+    KEY_PIN = 1;
 }
 
 static void keying_up() {
-    KEY_PIN = 1;
+    KEY_PIN = 0;
 }
 
 static void txing_init() {
@@ -145,11 +145,11 @@ static void txing_init() {
 }
 
 static void txing_on() {
-    TX_PIN = 0;
+    TX_PIN = 1;
 }
 
 static void txing_off() {
-    TX_PIN = 1;
+    TX_PIN = 0;
 }
 
 #endif // __SDCC_mcs51
