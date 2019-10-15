@@ -68,13 +68,14 @@ void timer0_isr() __interrupt TF0_VECTOR {
 
 #define txing_init() INIT_TX_PIN
 
-#define txing_on() TX_PIN = 0
+#define txing_on() TX_PIN = 1
 
-#define txing_off() TX_PIN = 1
+#define txing_off() TX_PIN = 0
 
 #define keying_init() {\
     INIT_KEY_PIN;\
     INIT_SIDETONE_PIN;\
+    txing_off();\
     init_timer0();\
 }
 

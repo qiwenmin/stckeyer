@@ -7,11 +7,13 @@
 #define MCH_LF 0b11111111
 #define MCH_EM 0b10101110
 #define MCH_QM 0b00110010
+#define MCH_SLASH 0b10010100
 
 #define MCH_0 0b11111100
 #define MCH_3 0b00011100
 #define MCH_4 0b00001100
 #define MCH_5 0b00000100
+#define MCH_7 0b11000100
 
 #define MCH_A 0b01100000
 #define MCH_B 0b10001000
