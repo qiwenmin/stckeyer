@@ -56,7 +56,7 @@ void timer0_isr() __interrupt TF0_VECTOR {
 #define init_timer0() {\
     PT0 = 1; /* Set Timer0 High Priority */\
     AUXR &= ~0x80; /* Timer clock is 12T mode */\
-	TMOD &= 0xF0; /* Set timer work mode */\
+    TMOD &= 0xF0; /* Set timer work mode */\
 \
     /* updated in config resetting */\
     /* update_timer0(); */\
@@ -66,7 +66,10 @@ void timer0_isr() __interrupt TF0_VECTOR {
 
 #define keying_up() KEY_PIN = 1
 
-#define txing_init() INIT_TX_PIN
+#define txing_init() {\
+    INIT_TX_PIN;\
+    txing_off();\
+}
 
 #define txing_on() TX_PIN = 1
 
@@ -75,7 +78,7 @@ void timer0_isr() __interrupt TF0_VECTOR {
 #define keying_init() {\
     INIT_KEY_PIN;\
     INIT_SIDETONE_PIN;\
-    txing_off();\
+    keying_up();\
     init_timer0();\
 }
 
