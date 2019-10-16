@@ -112,7 +112,7 @@ static void init_timer0() {
     PT0 = 1; // Set Timer0 High Priority
 
     AUXR &= ~0x80; // Timer clock is 12T mode
-	TMOD &= 0xF0; // Set timer work mode
+    TMOD &= 0xF0; // Set timer work mode
 
     // updated in config resetting
     //update_timer0();
@@ -130,6 +130,7 @@ static void keying_init() {
     INIT_KEY_PIN;
     INIT_SIDETONE_PIN;
     init_timer0();
+    keying_up();
 }
 
 static void keying_down() {
@@ -142,6 +143,7 @@ static void keying_up() {
 
 static void txing_init() {
     INIT_TX_PIN;
+    txing_off();
 }
 
 static void txing_on() {
