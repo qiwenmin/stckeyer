@@ -62,9 +62,9 @@ void timer0_isr() __interrupt TF0_VECTOR {
     /* update_timer0(); */\
 }
 
-#define keying_down() KEY_PIN = 0
+#define keying_down() KEY_PIN = 1
 
-#define keying_up() KEY_PIN = 1
+#define keying_up() KEY_PIN = 0
 
 #define txing_init() {\
     INIT_TX_PIN;\
