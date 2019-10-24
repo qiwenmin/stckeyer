@@ -29,7 +29,7 @@ static void do_wait_command() {
     if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
-        if (CFG_FLAG_LOCKED && ch != MCH_5 && ch != MCH_LF) {
+        if (CFG_FLAG_LOCKED && ch != MCH_5 && ch != MCH_V && ch != MCH_LF) {
             autotext_response_char2(MCH_EM);
             continue;
         }
