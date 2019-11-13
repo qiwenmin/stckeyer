@@ -16,6 +16,7 @@
 #include "tnyfsmos/tnyfsmos.h"
 #include "tasksdef.h"
 #include "config.h"
+#include "profiles.h"
 
 // keying task
 #define KEY_PIN P3_5
@@ -62,18 +63,18 @@ void timer0_isr() __interrupt TF0_VECTOR {
     /* update_timer0(); */\
 }
 
-#define keying_down() KEY_PIN = 1
+#define keying_down() KEY_PIN = KEYING_ON
 
-#define keying_up() KEY_PIN = 0
+#define keying_up() KEY_PIN = KEYING_OFF
+
+#define txing_on() TX_PIN = TXING_ON
+
+#define txing_off() TX_PIN = TXING_OFF
 
 #define txing_init() {\
     INIT_TX_PIN;\
     txing_off();\
 }
-
-#define txing_on() TX_PIN = 1
-
-#define txing_off() TX_PIN = 0
 
 #define keying_init() {\
     INIT_KEY_PIN;\
@@ -100,10 +101,14 @@ void keying_state_machine() {
             break;
         case KEYING_STATE_DOWN:
             RT_FLAG_SET_SIDETONE_ON;
-
+#if TXING_AS_MUTE == 1
+            tfo_goto_state_force(TASK_TXING, TXING_STATE_ON);
+#endif
             if (CFG_FLAG_TX_ENABLED && RT_FLAG_TX_ENABLED) {
                 keying_down();
+#if TXING_AS_MUTE != 1
                 tfo_goto_state_force(TASK_TXING, TXING_STATE_ON);
+#endif
             }
 
             tfo_in_state(TASK_KEYING);

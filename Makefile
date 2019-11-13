@@ -1,14 +1,20 @@
 CC = sdcc
 SRC = $(wildcard *.c) $(wildcard */*.c)
 
-TARGET ?= stckeyer
+CODEMODE ?= compact
+PROFILE ?= PPT
+TARGETSUFFIX = $(shell echo $(PROFILE) | tr A-Z a-z)
 
 STCCODESIZE ?= 4089
 STCIRAMSIZE ?= 128
-CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD --disable-warning 190
-ifeq ($(TARGET),stckeyer-compact)
+CFLAGS ?= -mmcs51 --code-size $(STCCODESIZE) --iram-size $(STCIRAMSIZE) --xram-size 0 --std-sdcc99 --Werror -MD --disable-warning 190 -D$(PROFILE)
+ifeq ($(CODEMODE),compact)
+	TARGET = stckeyer-$(TARGETSUFFIX)
 	CFLAGS += -DCOMPACT_CODE
+else
+	TARGET = stckeyer-full-$(TARGETSUFFIX)
 endif
+
 FLASHTOOL ?= stcgal
 FLASHFLAGS ?= -a -P stc15 -b 1200 -l 1200
 

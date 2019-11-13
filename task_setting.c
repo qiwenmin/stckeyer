@@ -18,10 +18,41 @@
 #include "config.h"
 #include "charsdef.h"
 #include "version.h"
+#include "profiles.h"
 
 static unsigned char callsign_pos;
 
-static __code char version[] = KEYER_VERSION;
+static __code char version[] = {
+    MCH_SP,
+    KEYER_VERSION,
+
+#if !defined(COMPACT_CODE)
+    MCH_F,
+#endif
+
+    MCH_SLASH,
+
+#if KEYING_ON == 1
+    MCH_P,
+#else
+    MCH_N,
+#endif
+
+#if TXING_ON == 1
+    MCH_P,
+#else
+    MCH_N,
+#endif
+
+#if TXING_AS_MUTE == 1
+    MCH_M,
+#else
+    MCH_T,
+#endif
+
+    0
+};
+
 static __code char resp_ok[] = { MCH_SP, MCH_O, MCH_K, 0 }; // " OK"
 static __code char resp_sk[] = { MCH_S, MCH_K, 0 }; // "SK"
 
