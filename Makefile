@@ -20,12 +20,12 @@ FLASHFLAGS ?= -a -P stc15 -b 1200 -l 1200
 
 .PHONY: all clean flash
 
-all: build/$(TARGET)/tnyfsmos build/$(TARGET)/$(TARGET).hex
+all: build/$(TARGET)/tnyfsmos build/$(TARGET).hex
 
 build/$(TARGET)/tnyfsmos:
 	mkdir -p $@
 
-build/$(TARGET)/$(TARGET).hex: build/$(TARGET)/$(TARGET).ihx
+build/$(TARGET).hex: build/$(TARGET)/$(TARGET).ihx
 	packihx $^ > $@
 
 build/$(TARGET)/$(TARGET).ihx: $(SRC:%.c=build/$(TARGET)/%.rel)
