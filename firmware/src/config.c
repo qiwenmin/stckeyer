@@ -13,8 +13,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stc15.h>
 #include "config.h"
-#include "tnyfsmos/stc15.h"
 #include "charsdef.h"
 
 config _config;

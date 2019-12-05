@@ -16,7 +16,7 @@
 #ifndef __HW_H__
 #define __HW_H__
 
-#include "tnyfsmos/stc15.h"
+#include <stc15.h>
 
 #define SW_PIN P3_4
 #define DIT_PIN P3_0
