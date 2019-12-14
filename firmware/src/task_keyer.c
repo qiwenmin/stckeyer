@@ -17,6 +17,7 @@
 #include "tasksdef.h"
 #include "config.h"
 #include "profiles.h"
+#include "sleep.h"
 
 // keying task
 #define KEY_PIN P3_5
@@ -100,6 +101,7 @@ void keying_state_machine() {
             tfo_in_state(TASK_KEYING);
             break;
         case KEYING_STATE_DOWN:
+            sleep_reset();
             RT_FLAG_SET_SIDETONE_ON;
 #if TXING_AS_MUTE == 1
             tfo_goto_state_force(TASK_TXING, TXING_STATE_ON);

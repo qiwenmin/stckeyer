@@ -18,6 +18,7 @@
 #include "config.h"
 #include "hw.h"
 #include "charsdef.h"
+#include "sleep.h"
 
 #define init_sw() SW_PIN = 1
 
@@ -52,6 +53,8 @@ void sw_state_machine() {
             if (!is_pin_down()) {
                 do_press();
                 tfo_delay_force(TASK_SW, 50, SW_STATE_WAITING_DOWN);
+            } else {
+                sleep_reset();
             }
         }
         return;
@@ -64,6 +67,7 @@ void sw_state_machine() {
             break;
         case SW_STATE_WAITING_DOWN:
             if (is_pin_down()) {
+                sleep_reset();
                 tfo_delay(TASK_SW, 2000, SW_STATE_WAITING_LONG_UP);
             }
             break;
