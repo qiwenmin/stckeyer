@@ -19,6 +19,7 @@
 #include "morse.h"
 #include "hw.h"
 #include "charsdef.h"
+#include "sleep.h"
 
 #define PADDLE_NONE (0)
 #define PADDLE_DIT (1)
@@ -104,6 +105,8 @@ void paddle_state_machine() {
             if (!is_dit_pin_down()) {
                 key_up();
                 tfo_delay(TASK_PADDLE, 50, PADDLE_STATE_STRAIGHT_KEY_WAITING_DOWN);
+            } else {
+                sleep_reset();
             }
             break;
 
