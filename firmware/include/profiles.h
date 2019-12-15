@@ -12,6 +12,14 @@
     #define TXING_OFF 0
 
     #define TXING_AS_MUTE 0
+#elif defined(PPM)
+    #define KEYING_ON 1
+    #define KEYING_OFF 0
+
+    #define TXING_ON 1
+    #define TXING_OFF 0
+
+    #define TXING_AS_MUTE 1
 #elif defined(PNT)
     #define KEYING_ON 1
     #define KEYING_OFF 0
