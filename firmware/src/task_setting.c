@@ -135,6 +135,11 @@ static void do_wait_command() {
                 autotext_response_char2(CFG_FLAG_SIDETONE_ENABLED ? MCH_Y : MCH_N);
                 break;
 
+            case MCH_O: // toggle loop
+                CFG_FLAG_TOGGLE_LOOP;
+                autotext_response_char2(CFG_FLAG_LOOP_ENABLED ? MCH_Y : MCH_N);
+                break;
+
             case MCH_5: // toggle config lock
                 CFG_FLAG_TOGGLE_LOCK;
                 autotext_response_char2(CFG_FLAG_LOCKED ? MCH_Y : MCH_N);

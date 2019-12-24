@@ -40,11 +40,12 @@ typedef struct {
     unsigned char tx_delay_50ms;
 
     // 7  6  5  4  3  2  1  0
-    // |           |  |  |  |                  0                 1
-    // |           |  |  |  +-- Disable Sidetone | Enable Sidetone
-    // |           |  |  +-----       Disable TX |       Enable TX
-    // |           |  +--------       Right-Hand |       Left-Hand
-    // |           +-----------         Iambic-B |       Iamboic-A
+    // |        |  |  |  |  |                  0                 1
+    // |        |  |  |  |  +-- Disable Sidetone | Enable Sidetone
+    // |        |  |  |  +-----       Disable TX |       Enable TX
+    // |        |  |  +--------       Right-Hand |       Left-Hand
+    // |        |  +-----------         Iambic-B |       Iamboic-A
+    // |        +--------------     Disable Loop |     Enable Loop
     // +-----------------------         Unlocked |          Locked
     signed char flags;
 
@@ -57,6 +58,7 @@ extern config _config;
 #define CFG_FLAG_TX_SHIFT 1
 #define CFG_FLAG_HAND_SHIFT 2
 #define CFG_FLAG_IAMBIC_MODE_SHIFT 3
+#define CFG_FLAG_LOOP_SHIFT 4
 #define CFG_FLAG_LOCK_SHIFT 7
 
 #define CFG_FLAG_SIDETONE_ENABLED (_config.flags & (1 << CFG_FLAG_SIDETONE_SHIFT))
@@ -76,6 +78,9 @@ extern config _config;
 #define CFG_FLAG_IS_IAMBIC_A (_config.flags & (1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
 #define CFG_FLAG_SET_IAMBIC_A (_config.flags |= (1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
 #define CFG_FLAG_SET_IAMBIC_B (_config.flags &= ~(1 << CFG_FLAG_IAMBIC_MODE_SHIFT))
+
+#define CFG_FLAG_LOOP_ENABLED (_config.flags & (1 << CFG_FLAG_LOOP_SHIFT))
+#define CFG_FLAG_TOGGLE_LOOP (_config.flags ^= (1 << CFG_FLAG_LOOP_SHIFT))
 
 #define CFG_FLAG_LOCKED (_config.flags & (1 << CFG_FLAG_LOCK_SHIFT))
 #define CFG_FLAG_TOGGLE_LOCK (_config.flags ^= (1 << CFG_FLAG_LOCK_SHIFT))

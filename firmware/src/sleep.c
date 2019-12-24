@@ -2,7 +2,7 @@
 #include "sleep.h"
 
 // 10 seconds
-#define IDLE_TIMEOUT (10000)
+#define IDLE_TIMEOUT (15000)
 
 static unsigned int _last_ms;
 

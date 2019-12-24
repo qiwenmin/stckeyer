@@ -36,9 +36,11 @@ static unsigned char _morse_bits;
     _morse_bits = 1;\
 }
 
-#define is_dit_pin_down() (RT_FLAG_PADDLE_ENABLED && (!DIT_PIN))
+#define is_raw_dit_down() (!DIT_PIN)
+#define is_dit_pin_down() (RT_FLAG_PADDLE_ENABLED && is_raw_dit_down())
 
-#define is_dah_pin_down() (RT_FLAG_PADDLE_ENABLED && (!DAH_PIN))
+#define is_raw_dah_down() (!DAH_PIN)
+#define is_dah_pin_down() (RT_FLAG_PADDLE_ENABLED && is_raw_dah_down())
 
 static unsigned char get_paddle_key() {
     unsigned char result = (is_dit_pin_down() ? PADDLE_DIT : PADDLE_NONE)
@@ -60,6 +62,12 @@ static void key_up() {
 }
 
 void paddle_state_machine() {
+    if (RT_FLAG_AUTOCQ_ENABLED && (
+        is_raw_dit_down() || ((!RT_FLAG_STRAIGHT_KEY_ENABLED) && is_raw_dah_down())
+    )) {
+        tfo_goto_state_force(TASK_AUTOTEXT, AUTOTEXT_STATE_IDLE);
+    }
+
     tfo_task_state state = tfo_get_task_state(TASK_PADDLE);
 
     if (TFO_STATE_FLAGS(state)) {

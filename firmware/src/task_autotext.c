@@ -77,7 +77,11 @@ static void goto_state_autocq() {
         autocq_idx = 5;
     } else {
         autocq_idx = 0;
-        tfo_goto_state(TASK_AUTOTEXT, AUTOTEXT_STATE_IDLE);
+        if (CFG_FLAG_LOOP_ENABLED) {
+            tfo_delay(TASK_AUTOTEXT, 8000, AUTOTEXT_STATE_AUTOCQ);
+        } else {
+            tfo_goto_state(TASK_AUTOTEXT, AUTOTEXT_STATE_IDLE);
+        }
     }
 }
 
