@@ -2,9 +2,9 @@
 #include "sleep.h"
 
 // 10 seconds
-#define IDLE_TIMEOUT (15000)
+#define IDLE_TIMEOUT (15000U)
 
-static unsigned int _last_ms;
+static volatile unsigned int _last_ms;
 
 void sleep_init() {
     sleep_reset();

@@ -110,11 +110,10 @@ void paddle_state_machine() {
             break;
 
         case PADDLE_STATE_STRAIGHT_KEY_WAITING_UP:
+            sleep_reset();
             if (!is_dit_pin_down()) {
                 key_up();
                 tfo_delay(TASK_PADDLE, 50, PADDLE_STATE_STRAIGHT_KEY_WAITING_DOWN);
-            } else {
-                sleep_reset();
             }
             break;
 
