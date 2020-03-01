@@ -68,8 +68,11 @@ void sw_state_machine() {
         case SW_STATE_WAITING_DOWN:
             if (is_pin_down()) {
                 sleep_reset();
-                tfo_delay(TASK_SW, 2000, SW_STATE_WAITING_LONG_UP);
+                tfo_delay(TASK_SW, 50, SW_STATE_DEBOUNING_DOWN);
             }
+            break;
+        case SW_STATE_DEBOUNING_DOWN:
+            tfo_delay(TASK_SW, 2000, SW_STATE_WAITING_LONG_UP);
             break;
         case SW_STATE_WAITING_LONG_UP:
             do_long_press();

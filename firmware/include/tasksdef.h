@@ -33,6 +33,7 @@ typedef enum {
  *****************/
 typedef enum {
     SW_STATE_WAITING_UP = TFO_STATE_USER,
+    SW_STATE_DEBOUNING_DOWN,
     SW_STATE_WAITING_LONG_UP,
     SW_STATE_WAITING_DOWN
 };
