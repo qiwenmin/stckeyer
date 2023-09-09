@@ -119,7 +119,11 @@ static void iap_idle() {
     IAP_ADDRL = 0;
 }
 
+#ifdef STC8G1K08
+#define ENABLE_IAP 0x80
+#else
 #define ENABLE_IAP 0x84 // < 6MHz
+#endif // STC8G1K08
 #define CMD_READ 1 //IAP Byte-Read
 #define CMD_PROGRAM 2 //IAP Byte-Program
 #define CMD_ERASE 3 //IAP Sector-Erase

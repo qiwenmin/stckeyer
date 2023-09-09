@@ -16,11 +16,16 @@
 #include <tnyfsmos.h>
 #include "tasksdef.h"
 #include "config.h"
-#include "hw.h"
 #include "charsdef.h"
 #include "sleep.h"
 
-#define init_sw() SW_PIN = 1
+#ifdef STC8G1K08
+#define SW_PIN P5_4
+#define init_sw() P5M0 &= ~(1 << 4); P5M1 &= ~(1 << 4); SW_PIN = 1
+#else
+#define SW_PIN P3_4
+#define init_sw() P3M0 &= ~(1 << 4); P3M1 &= ~(1 << 4); SW_PIN = 1
+#endif // STC8G1K08
 
 #define is_pin_down() (RT_FLAG_SW_ENABLED && (!SW_PIN))
 

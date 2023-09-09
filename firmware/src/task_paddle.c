@@ -17,7 +17,6 @@
 #include "tasksdef.h"
 #include "config.h"
 #include "morse.h"
-#include "hw.h"
 #include "charsdef.h"
 #include "sleep.h"
 
@@ -29,7 +28,11 @@
 static unsigned char _current_paddle_key, _next_paddle_key;
 static unsigned char _morse_bits;
 
+#define DIT_PIN P3_0
+#define DAH_PIN P3_1
+
 #define init_paddle() {\
+    P3M0 &= ~3; P3M1 &= ~3;\
     DIT_PIN = 1;\
     DAH_PIN = 1;\
     _current_paddle_key = _next_paddle_key = PADDLE_NONE;\

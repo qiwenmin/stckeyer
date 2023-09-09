@@ -13,11 +13,11 @@ void sleep_init() {
 }
 
 void sleep_reset() {
-    _last_ms = millis();
+    _last_ms = tfo_millis();
 }
 
 void sleep_check() {
-    if ((millis() - _last_ms) > IDLE_TIMEOUT) {
+    if ((tfo_millis() - _last_ms) > IDLE_TIMEOUT) {
         // put to sleep mode
         PCON = 0x02;
 

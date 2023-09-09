@@ -20,14 +20,19 @@
 #include "sleep.h"
 
 // keying task
+#ifdef STC8G1K08
+#define KEY_PIN P5_5
+#define INIT_KEY_PIN P5M0 |= (1 << 5); P5M1 &= ~(1 << 5)
+#else
 #define KEY_PIN P3_5
-#define INIT_KEY_PIN P3M0 |= (1 << 5)
+#define INIT_KEY_PIN P3M0 |= (1 << 5); P3M1 &= ~(1 << 5)
+#endif // STC8G1K08
 
 #define TX_PIN P3_2
-#define INIT_TX_PIN P3M0 |= (1 << 2)
+#define INIT_TX_PIN P3M0 |= (1 << 2); P3M1 &= ~(1 << 2)
 
 #define SIDETONE_PIN P3_3
-#define INIT_SIDETONE_PIN P3M0 |= (1 << 3)
+#define INIT_SIDETONE_PIN P3M0 |= (1 << 3); P3M1 &= ~(1 << 3)
 
 #define FOSC 6000000
 
