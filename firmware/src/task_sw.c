@@ -29,7 +29,7 @@
 
 #define is_pin_down() (RT_FLAG_SW_ENABLED && (!SW_PIN))
 
-static void do_long_press() {
+static void do_long_press(void) {
     if (RT_FLAG_SETTING_MODE_ENABLED || RT_FLAG_AUTOCQ_ENABLED) return;
 
     RT_FLAG_DISABLE_TX;
@@ -40,7 +40,7 @@ static void do_long_press() {
     autotext_response_char(MCH_QM);
 }
 
-static void do_press() {
+static void do_press(void) {
     if (RT_FLAG_SETTING_MODE_ENABLED) {
         rt_morse_decoded_buffer_putch(MCH_LF);
     } else if (RT_FLAG_AUTOCQ_ENABLED) {
@@ -50,7 +50,7 @@ static void do_press() {
     }
 }
 
-void sw_state_machine() {
+void sw_state_machine(void) {
     tfo_task_state state = tfo_get_task_state(TASK_SW);
 
     if (TFO_STATE_FLAGS(state)) {

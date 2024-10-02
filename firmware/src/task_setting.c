@@ -56,7 +56,7 @@ static __code char version[] = {
 static __code char resp_ok[] = { MCH_SP, MCH_O, MCH_K, 0 }; // " OK"
 static __code char resp_sk[] = { MCH_S, MCH_K, 0 }; // "SK"
 
-static void do_wait_command() {
+static void do_wait_command(void) {
     if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
@@ -148,7 +148,7 @@ static void do_wait_command() {
     }
 }
 
-static void do_sidetone_freq() {
+static void do_sidetone_freq(void) {
     // In this state, setting mode is always enabled.
     // if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
@@ -167,7 +167,7 @@ static void do_sidetone_freq() {
     }
 }
 
-static void do_tx_delay() {
+static void do_tx_delay(void) {
     // In this state, setting mode is always enabled.
     // if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
@@ -186,7 +186,7 @@ static void do_tx_delay() {
     }
 }
 
-static void do_callsign() {
+static void do_callsign(void) {
     if (!RT_FLAG_SETTING_MODE_ENABLED) return;
 
     for (char ch = rt_morse_decoded_buffer_getch(); ch != 0; ch = rt_morse_decoded_buffer_getch()) {
@@ -207,7 +207,7 @@ static void do_callsign() {
     }
 }
 
-void setting_state_machine() {
+void setting_state_machine(void) {
     tfo_task_state state = tfo_get_task_state(TASK_SETTING);
 
     // No delay. No in-state. Ingore state flag check.

@@ -36,7 +36,7 @@
 
 #define FOSC 6000000
 
-void update_timer0() {
+void update_timer0(void) {
 	ET0 = 0; // Disable Timer0 interrupt
 	TR0 = 0; // Stop Timer0
 
@@ -51,7 +51,7 @@ void update_timer0() {
 	ET0 = 1; // Enable Timer0 interrupt
 }
 
-void timer0_isr() __interrupt TF0_VECTOR {
+void timer0_isr(void) __interrupt (TF0_VECTOR) {
     if ((CFG_FLAG_SIDETONE_ENABLED || RT_FLAG_IS_RESPONSING_ON || RT_FLAG_SETTING_MODE_ENABLED)
         && RT_FLAG_IS_SIDETONE_ON) {
         SIDETONE_PIN = (!SIDETONE_PIN) & 0x01;
@@ -89,7 +89,7 @@ void timer0_isr() __interrupt TF0_VECTOR {
     init_timer0();\
 }
 
-void keying_state_machine() {
+void keying_state_machine(void) {
     tfo_task_state state = tfo_get_task_state(TASK_KEYING);
 
     if (TFO_STATE_FLAGS(state)) return;
@@ -123,7 +123,7 @@ void keying_state_machine() {
     }
 }
 
-void txing_state_machine() {
+void txing_state_machine(void) {
     tfo_task_state state = tfo_get_task_state(TASK_TXING);
 
     if (TFO_STATE_FLAGS(state)) return;

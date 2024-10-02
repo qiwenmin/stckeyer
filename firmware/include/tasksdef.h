@@ -38,7 +38,7 @@ typedef enum {
     SW_STATE_WAITING_DOWN
 };
 
-void sw_state_machine();
+void sw_state_machine(void);
 
 /*****************
  * Paddle Task
@@ -54,7 +54,7 @@ typedef enum {
     PADDLE_STATE_IEG
 };
 
-void paddle_state_machine();
+void paddle_state_machine(void);
 
 /*****************
  * Keying Task
@@ -64,8 +64,8 @@ typedef enum {
     KEYING_STATE_DOWN
 };
 
-void keying_state_machine();
-void update_timer0();
+void keying_state_machine(void);
+void update_timer0(void);
 
 /*****************
  * TXing Task
@@ -75,7 +75,7 @@ typedef enum {
     TXING_STATE_ON
 };
 
-void txing_state_machine();
+void txing_state_machine(void);
 
 /*****************
  * AutoText Task
@@ -93,7 +93,7 @@ typedef enum {
     AUTOTEXT_STATE_IEG
 };
 
-void autotext_state_machine();
+void autotext_state_machine(void);
 void autotext_response_str(char *p);
 void autotext_response_num(unsigned int n);
 void autotext_response_char(char ch);
@@ -111,6 +111,6 @@ typedef enum {
     SETTING_STATE_CALLSIGN
 };
 
-void setting_state_machine();
+void setting_state_machine(void);
 
 #endif // __TASKSDEF_H__

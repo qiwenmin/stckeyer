@@ -20,10 +20,10 @@
 
 TFO_INIT(TASK_COUNT)
 
-void timer0_isr() __interrupt TF0_VECTOR;
-void int4_isr() __interrupt 16 {} // wake on int4
+void timer0_isr(void) __interrupt (TF0_VECTOR);
+void int4_isr(void) __interrupt (16) {} // wake on int4
 
-void main() {
+void main(void) {
     tfo_init_os();
 
     reset_config_and_runtime_values();

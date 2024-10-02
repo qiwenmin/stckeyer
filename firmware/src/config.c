@@ -35,7 +35,7 @@ void cfg_set_speed_wpm(unsigned char value) {
     _runtime_cw_ems = wpm2ems(_config.speed_wpm);
 }
 
-void update_timer0(); // for update sidetone frequency
+void update_timer0(void); // for update sidetone frequency
 
 void cfg_set_sidetone_freq_50hz(unsigned char value) {
     if (value < CFG_SIDETONE_FREQ_50HZ_MIN || value > CFG_SIDETONE_FREQ_50HZ_MAX) return;
@@ -51,7 +51,7 @@ void cfg_set_tx_delay_50ms(unsigned char value) {
     _config.tx_delay_50ms = value;
 }
 
-void cfg_reset() {
+void cfg_reset(void) {
     _config.tx_delay_50ms = 12; //  600ms
     _config.speed_wpm = 15;
     _config.sidetone_freq_50hz = 14; // 700Hz
@@ -67,7 +67,7 @@ void cfg_reset() {
     update_timer0();
 }
 
-void reset_config_and_runtime_values() {
+void reset_config_and_runtime_values(void) {
     cfg_reset();
 
     // reset the the runtime variables
@@ -90,11 +90,11 @@ unsigned int divide(unsigned int a, unsigned int b) {
 static char md_buf[MD_BUF_LEN];
 unsigned char md_buf_pos, md_buf_size;
 
-void rt_morse_decoded_buffer_reset() {
+void rt_morse_decoded_buffer_reset(void) {
     md_buf_pos = md_buf_size = 0;
 }
 
-char rt_morse_decoded_buffer_getch() {
+char rt_morse_decoded_buffer_getch(void) {
     if (md_buf_size == 0) {
         return 0;
     }
@@ -111,7 +111,7 @@ void rt_morse_decoded_buffer_putch(char ch) {
 }
 
 // eeprom operations
-static void iap_idle() {
+static void iap_idle(void) {
     IAP_CONTR = 0;
     IAP_CMD = 0;
     IAP_TRIG = 0;
@@ -166,7 +166,7 @@ static void  iap_program_byte(unsigned int addr, unsigned char dat)
     iap_idle();
 }
 
-void load_config() {
+void load_config(void) {
     unsigned char ch1 = iap_read_byte(sizeof(_config));
 
     if (ch1 != MCH_N) return;
@@ -181,7 +181,7 @@ void load_config() {
     update_timer0();
 }
 
-void save_config() {
+void save_config(void) {
     iap_erase_sector(0x00);
 
     iap_program_byte(sizeof(_config), MCH_N);

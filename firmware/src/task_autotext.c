@@ -28,7 +28,7 @@ static __code char msg_cq1[] = { MCH_C, MCH_Q, MCH_SP, MCH_C, MCH_Q, MCH_SP, MCH
 static __code char msg_cq2[] = { MCH_SP, 0 }; // " "
 static __code char msg_cq3[] = { MCH_SP, MCH_P, MCH_S, MCH_E, MCH_SP, MCH_K, 0}; // " PSE K"
 
-static void goto_state_idle() {
+static void goto_state_idle(void) {
     tfo_goto_state(TASK_KEYING, KEYING_STATE_UP);
 
     RT_FLAG_ENABLE_PADDLE;
@@ -49,7 +49,7 @@ static void goto_state_idle() {
     autocq_idx = 0;
 }
 
-static void goto_state_autocq() {
+static void goto_state_autocq(void) {
     if (autocq_idx == 0) {
         RT_FLAG_DISABLE_PADDLE;
         RT_FLAG_ENABLE_AUTOCQ;
@@ -85,7 +85,7 @@ static void goto_state_autocq() {
     }
 }
 
-static void goto_state_response() {
+static void goto_state_response(void) {
     RT_FLAG_DISABLE_PADDLE;
     RT_FLAG_DISABLE_SW;
     RT_FLAG_DISABLE_TX;
@@ -95,7 +95,7 @@ static void goto_state_response() {
     tfo_goto_state(TASK_AUTOTEXT, AUTOTEXT_STATE_SEND_CHARS);
 }
 
-static void goto_state_send_chars() {
+static void goto_state_send_chars(void) {
     if (_runtime_autotext_ptr == 0 || (*_runtime_autotext_ptr == 0)) {
         tfo_goto_state(TASK_AUTOTEXT, send_chars_return_state);
 
@@ -112,7 +112,7 @@ static void goto_state_send_chars() {
     }
 }
 
-void autotext_state_machine() {
+void autotext_state_machine(void) {
     tfo_task_state state = tfo_get_task_state(TASK_AUTOTEXT);
 
     if (TFO_STATE_FLAGS(state)) return;

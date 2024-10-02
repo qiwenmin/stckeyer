@@ -45,7 +45,7 @@ static unsigned char _morse_bits;
 #define is_raw_dah_down() (!DAH_PIN)
 #define is_dah_pin_down() (RT_FLAG_PADDLE_ENABLED && is_raw_dah_down())
 
-static unsigned char get_paddle_key() {
+static unsigned char get_paddle_key(void) {
     unsigned char result = (is_dit_pin_down() ? PADDLE_DIT : PADDLE_NONE)
         | (is_dah_pin_down() ? PADDLE_DAH : PADDLE_NONE);
 
@@ -56,15 +56,15 @@ static unsigned char get_paddle_key() {
     return result;
 }
 
-static void key_down() {
+static void key_down(void) {
     tfo_goto_state(TASK_KEYING, KEYING_STATE_DOWN);
 }
 
-static void key_up() {
+static void key_up(void) {
     tfo_goto_state(TASK_KEYING, KEYING_STATE_UP);
 }
 
-void paddle_state_machine() {
+void paddle_state_machine(void) {
     if (RT_FLAG_AUTOCQ_ENABLED && (
         is_raw_dit_down() || ((!RT_FLAG_STRAIGHT_KEY_ENABLED) && is_raw_dah_down())
     )) {

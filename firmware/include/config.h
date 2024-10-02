@@ -151,11 +151,11 @@ extern signed char _runtime_flags;
 #define RT_FLAG_SET_DEFAULTS (_runtime_flags = (1 << RT_FLAG_TX_SHIFT) | (1 << RT_FLAG_PADDLE_SHIFT) | (1 << RT_FLAG_SW_SHIFT))
 
 
-void reset_config_and_runtime_values();
-void load_config();
-void save_config();
+void reset_config_and_runtime_values(void);
+void load_config(void);
+void save_config(void);
 
-void cfg_reset();
+void cfg_reset(void);
 void cfg_set_speed_wpm(unsigned char value);
 void cfg_set_sidetone_freq_50hz(unsigned char value);
 void cfg_set_tx_delay_50ms(unsigned char value);
@@ -164,8 +164,8 @@ unsigned int times_50(unsigned char v);
 unsigned int divide(unsigned int a, unsigned int b);
 
 // decoded buffer
-void rt_morse_decoded_buffer_reset();
-char rt_morse_decoded_buffer_getch();
+void rt_morse_decoded_buffer_reset(void);
+char rt_morse_decoded_buffer_getch(void);
 void rt_morse_decoded_buffer_putch(char ch);
 
 #endif // __CONFIG_H__
